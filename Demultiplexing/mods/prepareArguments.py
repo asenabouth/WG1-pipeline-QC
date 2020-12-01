@@ -76,7 +76,7 @@ def get_scrnaseq_dirs(config):
     scrna_seq_dirlist = os.listdir(scrnaseq_dir)
     try:
         scrnaseq_filelist = [os.path.join(scrnaseq_dir, matchFolders(pool, dir_list = scrna_seq_dirlist)) for pool in pools]
-    except TypeError:
+    except TypeError as error:
         print(error)
         print("Could not find a scRNA-seq directory for all of the pools in your pool list. Please check that they are spelled correctly and you do not have any additional pool names that are not in {}  ".format(individual_list_dir))
     scrnaseq_filedict = dict(zip(pools, scrnaseq_filelist))
@@ -85,7 +85,7 @@ def get_scrnaseq_dirs(config):
     ### Get the barcode files for each pool
     try:
         barcode_filelist = [get_barcodes_files(pool) for pool in scrnaseq_filelist]
-    except:
+    except Exception as error:
         print(error)
         print("Could not find a barcode file in all the scRNA-seq pool directories. Please check that they exist somewhere in your pool scRNA-seq directories and contain 'barcodes.tsv' within the name.")
     barcode_filedict = dict(zip(pools, barcode_filelist))
@@ -94,7 +94,7 @@ def get_scrnaseq_dirs(config):
     ### Get the bam files for each pool
     try:
         bam_filelist = [get_bam_files(pool) for pool in scrnaseq_filelist]
-    except:
+    except Exception as error:
         print(error)
         print("Could not find a bam file in all the scRNA-seq pool directories. Please check that they exist somewhere in your pool scRNA-seq directories and contain '.bam' within the name.")
     bam_filedict = dict(zip(pools, bam_filelist))
@@ -103,7 +103,7 @@ def get_scrnaseq_dirs(config):
     ### Get the matrix files for each pool
     try:
         matrix_filelist = [get_matrix_files(pool) for pool in scrnaseq_filelist]
-    except:
+    except Exception as error:
         print(error)
         print("Could not find a matrix file in all the scRNA-seq pool directories. Please check that they exist somewhere in your pool scRNA-seq directories and contain 'matrix.mtx' within the name.")
     matrix_filedict = dict(zip(pools, matrix_filelist))
@@ -112,7 +112,7 @@ def get_scrnaseq_dirs(config):
     ### Get the directories of all the matrix EXCLUDING the matrix filenames themselves
     try:
         matrix_dirlist = [get_matrix_dirs(pool) for pool in scrnaseq_filelist]
-    except:
+    except Exception as error:
         print(error)
         print("Could not find a matrix file in all the scRNA-seq pool directories. Please check that they exist somewhere in your pool scRNA-seq directories and contain 'matrix.mtx' within the name.")
     matrix_dirdict = dict(zip(pools, matrix_dirlist))
@@ -122,7 +122,7 @@ def get_scrnaseq_dirs(config):
     individual_dirlist = os.listdir(individual_list_dir)
     try:
         individual_filelist = [os.path.join(individual_list_dir, get_individual_files(pool, individual_dir = individual_dirlist)) for pool in pools]
-    except:
+    except Exception as error:
         print(error)
         print("Could not find a files of individuals in {}. Please check that they exist somewhere in this directory and contain the pool names within the name of the file.".format(individual_list_dir))
     individual_filedict = dict(zip(pools, individual_filelist))

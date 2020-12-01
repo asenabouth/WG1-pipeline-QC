@@ -10,7 +10,6 @@ import shutil
 from mods import prepareArguments
 from mods import read10x
 
-
 ### Extract variables from configuration file for use within the rest of the pipeline
 input_dict = config["inputs"]
 output_dict = config["outputs"]
@@ -35,8 +34,6 @@ CombineResults_dict = config["CombineResults"]
 # Use prepareArguments.py script to retrieve exact directories of single cell files
 scrnaseq_libs_df = prepareArguments.get_scrnaseq_dirs(config)
 scrnaseq_libs_df.to_csv(os.path.join(output_dict["output_dir"],'file_directories.txt'), sep = "\t", index = False)
-
-
 samples = pd.read_csv(input_dict["samplesheet_filepath"], sep = "\t")
 samples.columns = ["Pool", "N"]
 
