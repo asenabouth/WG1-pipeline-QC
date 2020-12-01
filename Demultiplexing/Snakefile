@@ -30,11 +30,10 @@ scrublet_extra_dict = config["scrublet_extra"]
 scds_dict = config["scds"]
 CombineResults_dict = config["CombineResults"]
 
-
 # Use prepareArguments.py script to retrieve exact directories of single cell files
 scrnaseq_libs_df = prepareArguments.get_scrnaseq_dirs(config)
 scrnaseq_libs_df.to_csv(os.path.join(output_dict["output_dir"],'file_directories.txt'), sep = "\t", index = False)
-samples = pd.read_csv(input_dict["samplesheet_filepath"], sep = "\t")
+samples = pd.read_csv(input_dict["samplesheet_filepath"], sep = ",")
 samples.columns = ["Pool", "N"]
 
 # If the scrublet_check output is present => all the contents are there that are needed to move past 

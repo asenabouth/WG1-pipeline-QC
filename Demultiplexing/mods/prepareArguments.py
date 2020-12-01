@@ -121,7 +121,7 @@ def get_scrnaseq_dirs(config):
         raise Exception("Directory {} does not exist or you have not mounted a parent directory for the singularity bucket".format(individual_list_dir))
 
     # Read in samplesheet from the configfile specified from the command line
-    samples = pd.read_csv(input_dict["samplesheet_filepath"])
+    samples = pd.read_csv(input_dict["samplesheet_filepath"], sep = "\t")
 
     # Expect first colunn to be pools
     pools = samples.iloc[:, 0]
