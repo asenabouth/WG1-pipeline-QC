@@ -46,13 +46,13 @@ def get_barcodes_dir(scrnaseq_filelist, pools = None):
     except Exception as error:
         print(error)
         raise SystemExit("Could not find a barcode file in all the scRNA-seq pool directories. Please check that they exist somewhere in your pool scRNA-seq directories and contain 'barcodes.tsv' within the name.")
-
+    
 def get_bam_files(pool_dir):
     for dirpath, dirnames, filenames in os.walk(pool_dir):
         for filename in [f for f in filenames if f.endswith(".bam")]:
             return(os.path.join(dirpath, filename))
 
-def get_bam_dir(scrnaseq_filelist, pools = None):
+def get_bam_dirs(scrnaseq_filelist, pools = None):
     try:
         bam_filelist = [get_bam_files(pool) for pool in scrnaseq_filelist]
         bam_filedict = dict(zip(pools, bam_filelist))
@@ -127,14 +127,14 @@ def get_scrnaseq_dirs(config):
     pools = samples.iloc[:, 0]
 
     # Match pools to scrna seq directories to make a list of each scRNA-seq dir
-    scrna_seq_dirlist = os.listdir(scrnaseq_dir)
+    scrna_seq_dirlist = [d for d in os.listdir(scrnaseq_dir) if os.path.isdir(os.path.join(scrnaseq_dir, d))]
     scrnaseq_filelist, scrnaseq_libs = get_scrnaseq_dir_list(scrnaseq_dir, dir_list=scrna_seq_dirlist, pools = pools)
     
     # Get files from scrnaseq directories
     barcode_libs = get_barcodes_dir(scrnaseq_filelist, pools = pools)
     
     # Get the bam files for each pool
-    bamlibs = get_bam_dir(scrnaseq_filelist, pools = pools)
+    bamlibs = get_bam_dirs(scrnaseq_filelist, pools = pools)
 
     ### Get the matrix files for each pool
     matrix_dir_libs, matrix_libs = get_matrix_dirs(scrnaseq_filelist, pools = pools)
